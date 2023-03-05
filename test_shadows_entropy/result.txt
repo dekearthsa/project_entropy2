@@ -1,0 +1,48 @@
+## ver 1 ##
+
+# h =>  968
+# w =>  1290
+# all volumns =>  1248720
+# inuse => 414828
+# value_entroy =>  0.9171609233450513
+
+# h =>  968
+# w =>  1290
+# all volumns =>  1248720
+# inuse => 370660
+# value_entroy =>  0.8773837610579844
+
+
+
+## ver 2 shade based ## 
+# before #
+# h =>  968
+# w =>  1290
+# all volumns =>  1248720
+# inuse => 995027
+# value_entroy =>  0.7282080594850855
+
+# After # 
+# h =>  968
+# w =>  1290
+# all volumns =>  1248720
+# inuse => 1051514
+# value_entroy =>  0.6293259680540589
+
+
+## ver2 ##
+
+# before # 
+# h =>  1724
+# w =>  1290
+# all volumns =>  2223960
+# inuse => 1467405
+# value_entroy =>  0.9249944099417984
+
+# after #
+# Standard Deviation 51
+# h =>  968
+# w =>  1290
+# all volumns =>  1248720
+# inuse => 893368
+# value_entroy =>  0.8616072669559971
