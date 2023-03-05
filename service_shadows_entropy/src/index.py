@@ -8,6 +8,7 @@ import numpy as np
 from controller.entroy_many_factor_e_void import entroy_many_factor_e_void
 from controller.entroy_many_factor_e_solid import entroy_many_factor_e_solid
 from controller.sum_of_solid_and_void import sum_of_solid_and_void
+import os
 
 app = Flask(__name__) 
 CORS(app)
