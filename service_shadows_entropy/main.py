@@ -2,6 +2,7 @@ from flask import Flask , request, jsonify
 from flask_cors import CORS
 import cv2
 import numpy as np
+import base64
 
 from src.controller.entroy_many_factor_e_void import entroy_many_factor_e_void
 from src.controller.entroy_many_factor_e_solid import entroy_many_factor_e_solid
@@ -19,9 +20,15 @@ def debuging():
 def calculate_color():
     if request.method == 'POST':
         counting_white = 0
-        filestr = request.files['img'].read()
-        file_bytes = np.fromstring(filestr, np.uint8)
-        img = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
+        # filestr = request.files['img'].read()
+        # file_bytes = np.fromstring(filestr, np.uint8)
+        # img = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
+        req = request.get_json(force=True)
+        # print(req['data'])
+        image_data = base64.b64decode(req['data'])
+        np_array = np.frombuffer(image_data, np.uint8)
+        img = cv2.imdecode(np_array, cv2.IMREAD_UNCHANGED)
+
         # image = cv2.imread(img)
         total_vol_image =  img.shape[0] * img.shape[1]
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -37,7 +44,7 @@ def calculate_color():
     e_void = entroy_many_factor_e_void(counting_white, total_vol_image) 
     value_entroy = sum_of_solid_and_void(e_solid=e_solid,e_void=e_void)
 
-    return "shadows entroy => " + str(value_entroy)
+    return "shadows entroy => " + str(round(value_entroy,3))
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ from flask import Flask , request, jsonify
 from flask_cors import CORS
 import cv2
 import numpy as np
+import base64
 
 from src.controller.counting_shape import counting_shape
 from src.controller.calculate_shapes_entropy import calculate_shapes_entropy
@@ -17,9 +18,14 @@ def debuging():
 @app.route('/api/shape_entropy', methods = ['POST'])
 def calculate_color():
     if request.method == 'POST':
-        filestr = request.files['img'].read()
-        file_bytes = np.fromstring(filestr, np.uint8)
-        img = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
+        
+        # filestr = request.files['img'].read()
+        # file_bytes = np.fromstring(filestr, np.uint8)
+        # img = cv2.imdecode(file_bytes, cv2.IMREAD_UNCHANGED)
+        req = request.get_json(force=True)
+        image_data = base64.b64decode(req['data'])
+        np_array = np.frombuffer(image_data, np.uint8)
+        img = cv2.imdecode(np_array, cv2.IMREAD_UNCHANGED)
         
         imgGry = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ret , thresh = cv2.threshold(imgGry, 150 , 255, cv2.CHAIN_APPROX_NONE)
@@ -107,7 +113,7 @@ def calculate_color():
                     shapes_array.append(warping)
     export_shape_array = counting_shape(shapes_array)
     cal_entropy = calculate_shapes_entropy(export_shape_array)
-    return "shape entropy => " + str(cal_entropy)
+    return "shape entropy => " + str(round(cal_entropy, 3))
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0",port=8082)
